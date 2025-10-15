@@ -71,13 +71,15 @@ function filterExpenses(expenses: Expense[], scope?: ExpenseListScope) {
 }
 
 function filterActivity(activity: Activity[], filters?: ActivityFilters) {
-  if (!filters?.scope) return activity;
-  if (filters.scope.type === "global") {
+  const scope = filters?.scope;
+  if (!scope) return activity;
+  if (scope.type === "global") {
     return activity.filter((item) => item.scope.type === "global");
   }
-  return activity.filter(
-    (item) => item.scope.type === filters.scope.type && item.scope.id === filters.scope.id,
-  );
+  if (!scope.id) {
+    return activity.filter((item) => item.scope.type === scope.type);
+  }
+  return activity.filter((item) => item.scope.type === scope.type && item.scope.id === scope.id);
 }
 
 function upsertActivity(state: MockState, activity: Activity): MockState {
@@ -189,6 +191,7 @@ export function DataProviderProvider({ children }: { children: React.ReactNode }
           message: `${state.currentUser.name ?? "You"} created ${circle.name}`,
           actor_user_id: state.currentUser.id,
           created_at: now,
+          tags: ["circle", "new"],
         };
         setState((prev) => upsertActivity({ ...prev, circles: [...prev.circles, circle] }, activity));
         return circle;
