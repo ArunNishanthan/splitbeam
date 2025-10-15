@@ -142,6 +142,7 @@ const activity: Activity[] = [
     message: "Casey added Surfboard rentals to Lisbon Landing Crew",
     actor_user_id: currentUser.id,
     created_at: "2024-03-02T15:22:30.000Z",
+    tags: ["expense", "lisbon landing crew"],
   },
   {
     id: "activity_2",
@@ -150,6 +151,7 @@ const activity: Activity[] = [
     message: "Nina logged Shared groceries",
     actor_user_id: "friend_3",
     created_at: "2024-03-08T18:05:30.000Z",
+    tags: ["expense", "shares"],
   },
   {
     id: "activity_3",
@@ -158,6 +160,7 @@ const activity: Activity[] = [
     message: "Jules settled €45.20 with Casey",
     actor_user_id: "friend_1",
     created_at: "2024-03-12T19:42:00.000Z",
+    tags: ["settlement", "lisbon landing crew"],
   },
   {
     id: "activity_4",
@@ -166,6 +169,7 @@ const activity: Activity[] = [
     message: "Casey added Studio cleaning service",
     actor_user_id: currentUser.id,
     created_at: "2024-04-10T09:05:00.000Z",
+    tags: ["expense", "nyc studio loft"],
   },
 ];
 

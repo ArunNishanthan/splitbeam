@@ -107,6 +107,7 @@ export type Activity = {
   message: string;
   actor_user_id: string;
   created_at: string;
+  tags?: string[];
 };
 
 export type Profile = {

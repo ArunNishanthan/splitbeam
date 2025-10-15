@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useDataProvider, useMockState } from "@/data/data-provider-context";
+import { useActivityIndicator } from "@/lib/use-activity-indicator";
 import { formatRelativeDate } from "@/lib/utils";
 import type { Activity } from "@/types/entities";
 
@@ -39,6 +40,7 @@ export default function ActivityPage() {
   const [activities, setActivities] = React.useState<Activity[]>(
     [...state.activity].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()),
   );
+  const { markAsSeen } = useActivityIndicator(state.activity);
 
   React.useEffect(() => {
     const filters = scope === "all" ? undefined : { scope: { type: scope } as const };
@@ -51,6 +53,14 @@ export default function ActivityPage() {
       )
       .catch((error) => console.error("Failed to load activity", error));
   }, [provider, scope]);
+
+  React.useEffect(() => {
+    if (!activities.length) {
+      return;
+    }
+    const latest = new Date(activities[0].created_at).getTime();
+    markAsSeen(latest);
+  }, [activities, markAsSeen]);
 
   return (
     <AppShell
@@ -93,6 +103,15 @@ export default function ActivityPage() {
                   <span className="text-xs text-muted-foreground">{formatRelativeDate(item.created_at)}</span>
                 </div>
                 <p className="mt-1 text-sm text-foreground">{item.message}</p>
+                {item.tags?.length ? (
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {item.tags.map((tag) => (
+                      <Badge key={tag} className="rounded-full text-xs font-medium">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                ) : null}
               </div>
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <CheckCircle2 className="h-4 w-4" aria-hidden />
@@ -107,7 +126,7 @@ export default function ActivityPage() {
         ))}
         {!activities.length ? (
           <div className="rounded-xl border border-dashed border-border/70 bg-muted/20 p-10 text-center text-sm text-muted-foreground">
-            No activity yet. When expenses are created or settled, they'll appear here.
+            No activity yet. When expenses are created or settled, they’ll appear here.
           </div>
         ) : null}
       </div>

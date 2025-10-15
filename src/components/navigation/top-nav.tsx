@@ -7,6 +7,8 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/navigation/mode-toggle";
+import { useMockState } from "@/data/data-provider-context";
+import { useActivityIndicator } from "@/lib/use-activity-indicator";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -18,6 +20,8 @@ const links = [
 export function TopNav() {
   const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
+  const state = useMockState();
+  const { hasUnseen } = useActivityIndicator(state.activity);
   React.useEffect(() => {
     setOpen(false);
   }, [pathname]);
@@ -45,7 +49,12 @@ export function TopNav() {
                 )}
               >
                 <link.icon className="h-4 w-4" aria-hidden />
-                {link.label}
+                <span className="relative inline-flex items-center">
+                  {link.label}
+                  {link.href === "/activity" && hasUnseen ? (
+                    <span className="ml-1 inline-flex h-2 w-2 rounded-full bg-primary shadow-[0_0_0_2px] shadow-background" />
+                  ) : null}
+                </span>
               </Link>
             ))}
           </nav>
@@ -84,7 +93,12 @@ export function TopNav() {
                 )}
               >
                 <link.icon className="h-4 w-4" aria-hidden />
-                {link.label}
+                <span className="relative inline-flex items-center">
+                  {link.label}
+                  {link.href === "/activity" && hasUnseen ? (
+                    <span className="ml-1 inline-flex h-2 w-2 rounded-full bg-primary shadow-[0_0_0_2px] shadow-background" />
+                  ) : null}
+                </span>
               </Link>
             ))}
             <Button variant="secondary" className="mt-2" asChild>

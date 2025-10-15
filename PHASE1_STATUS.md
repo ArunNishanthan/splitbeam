@@ -7,9 +7,9 @@ This document tracks the current implementation against the Phase 1 scope define
 - **A2. Layout & navigation** — _Partially complete_. The top navigation and dark mode toggle are implemented, yet there is no hero slot wiring for every screen, no responsive verification, and no keyboard/focus management tests or docs.
 
 ## Epic B — Entities & Lists
-- **B1. Circles index** — _Partially complete_. Circle list cards render with metadata, but they do not navigate to detail views and balance/last-activity logic is stubbed.
-- **B2. Friends index** — _Partially complete_. Friend cards and Invite CTA render, yet negative balances, truncation behaviour, and navigation affordances are not implemented.
-- **B3. Activity feed** — _Partially complete_. Activity items render, but filter pills, tag chips, and in-app indicator reset logic are missing.
+- **B1. Circles index** — _Complete_. Cards surface balances, last activity, and link directly into circle detail experiences.
+- **B2. Friends index** — _Complete_. Friend cards include truncation, negative balance handling, and invite/settlement affordances.
+- **B3. Activity feed** — _Complete_. Scope filter pills, contextual tag chips, and the in-app indicator reset on view are implemented.
 
 ## Epic C — Circle Detail
 _No implementation present._ There are no Circle detail routes, headers, settings panels, or scoped activity/expense views.
